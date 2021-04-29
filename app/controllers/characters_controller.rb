@@ -15,10 +15,10 @@ class CharactersController < ApplicationController
 
   # POST /characters
   def create
-    @character = Character.new(character_params)
+    @character = @@current_user[0].characters.build(character_params)
 
     if @character.save
-      render json: @character, status: :created, location: @character
+      render json: @character, include: [:user]
     else
       render json: @character.errors, status: :unprocessable_entity
     end
@@ -46,6 +46,6 @@ class CharactersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def character_params
-      params.require(:character).permit(:name, :user_id)
+      params.require(:character).permit(:name, :hairIndex, :eyesIndex, :mouthIndex, :shirtIndex, :pantsIndex, :shoesIndex, :skinTone, :user_id)
     end
 end

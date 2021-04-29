@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
 #testing out the repo
-    render json: @users
+    render json: @users, include: [:characters]
   end
 
   # GET /users/1
@@ -15,9 +15,10 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
-
+    @user = User.find_or_create_by(user_params)
     if @user.save
+      @@current_user = []
+      @@current_user << @user
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -35,6 +36,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
+    @user.characters.each{|c| c.destroy}
     @user.destroy
   end
 
