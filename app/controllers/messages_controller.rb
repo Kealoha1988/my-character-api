@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
 
   # POST /messages
   def create
-    @messages = @@current_user[0].characters.build(message_params)
+    @messages = @@current_user[0].messages.build(message_params)
     # @message = Message.new(message_params)
 
     if @message.save
