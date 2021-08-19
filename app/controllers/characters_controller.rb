@@ -15,10 +15,10 @@ class CharactersController < ApplicationController
 
   # POST /characters
   def create
-    @character = @@current_user[0].characters.build(character_params)
+    @character = Character.create(character_params)
 
     if @character.save
-      render json: @character, include: [:user]
+      render json: @character
     else
       render json: @character.errors, status: :unprocessable_entity
     end
