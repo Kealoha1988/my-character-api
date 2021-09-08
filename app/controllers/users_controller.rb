@@ -17,8 +17,6 @@ class UsersController < ApplicationController
   def create
     @user = User.find_or_create_by(user_params)
     if @user.save
-      @@current_user = []
-      @@current_user << @user
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
